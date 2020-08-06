@@ -1,4 +1,4 @@
-<?php 
+<?php
 function createChartArea($chart_id){
   ?>
   <figure class="highcharts-figure">
@@ -40,7 +40,7 @@ function prepareChartData($chart_data,$x_axis_key) {
 }
 
 function drawColumnChart($series_data, $x_axis_data, $chart_name, $chart_id, $subtitle = '') {
-  ?> 
+  ?>
 
 <script type="text/javascript">
 
@@ -55,6 +55,63 @@ var chart = new Highcharts.Chart({
   chart: {
     renderTo: chart_id,
     type: 'column',
+    // options3d: {
+    //   enabled: true,
+    //   alpha: 20,
+    //   beta: 0,
+    //   depth: 50,
+    //   viewDistance: 25
+    // }
+  },
+  xAxis: {
+        categories: x_axis_data,
+        crosshair: true
+    },
+  title: {
+    text: chart_name
+  },
+  subtitle: {
+    text: subtitle
+  },
+  tooltip: {
+        headerFormat: '<span style="font-size:10px">{point.key}</span><table>',
+        pointFormat: '<tr><td style="color:{series.color};padding:0;font-size:11px;white-space:nowrap">{series.name}: </td>' +
+            '<td style="padding:0; font-size:11px"><b>{point.y} </b></td></tr>',
+            // '<td style="padding:0; font-size:11px"><b>{point.y:.1f} </b></td></tr>',
+        footerFormat: '</table>',
+        shared: true,
+        useHTML: true
+    },
+  plotOptions: {
+    column: {
+      depth: 25,
+      pointPadding: 0.2,
+    }
+  },
+  series: graph1_series_data
+});
+
+</script>
+
+  <?php
+}
+
+function drawBarChart($series_data, $x_axis_data, $chart_name, $chart_id, $subtitle = '') {
+  ?>
+
+<script type="text/javascript">
+
+  // Set up the chart
+var graph1_series_data = <?php echo json_encode($series_data); ?> ;
+var x_axis_data = <?php echo json_encode($x_axis_data); ?> ;
+var chart_name = "<?php echo $chart_name ?>";
+var subtitle = "<?php echo $subtitle ?>";
+var chart_id = "<?php echo $chart_id ?>";
+
+var chart = new Highcharts.Chart({
+  chart: {
+    renderTo: chart_id,
+    type: 'bar',
     // options3d: {
     //   enabled: true,
     //   alpha: 20,
